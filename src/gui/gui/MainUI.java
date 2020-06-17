@@ -94,8 +94,8 @@ public class MainUI {
         Object[] listeners = listenerList.getListenerList();
 
         for (int i = 0; i < listeners.length; i += 2) {
-            if (listeners[i] == InputListener.class) {
-                ((InputListener)listeners[i + 1]).inputEventOccured(event);
+            if (listeners[i] == QueryListener.class) {
+                ((QueryListener)listeners[i + 1]).QueryEventOccured(event);
             }
         }
     }
