@@ -3,7 +3,10 @@ import javax.swing.*;
 import javax.swing.event.EventListenerList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.Arrays;
+import gui.QueryEvent;
+import gui.QueryListener;
 
 public class MainUI {
     private JPanel panel1;
@@ -92,6 +95,33 @@ public class MainUI {
             }
         });
     }
+
+    public JMenuBar createMenuBar() {
+        JMenuBar menuBar;
+        JRadioButtonMenuItem rbMenuItem;
+        JMenu menu;
+        menuBar = new JMenuBar();
+        menu = new JMenu("A Menu");
+        menu.setMnemonic(KeyEvent.VK_A);
+        menu.getAccessibleContext().setAccessibleDescription(
+                "The only menu in this program that has menu items");
+        menuBar.add(menu);
+        menu.addSeparator();
+        ButtonGroup group = new ButtonGroup();
+
+        rbMenuItem = new JRadioButtonMenuItem("A radio button menu item");
+        rbMenuItem.setSelected(true);
+        rbMenuItem.setMnemonic(KeyEvent.VK_R);
+        group.add(rbMenuItem);
+        menu.add(rbMenuItem);
+
+        rbMenuItem = new JRadioButtonMenuItem("Another one");
+        rbMenuItem.setMnemonic(KeyEvent.VK_O);
+        group.add(rbMenuItem);
+        menu.add(rbMenuItem);
+        return menuBar;
+    }
+
     public void fireQueryEvent(QueryEvent event) {
         Object[] listeners = listenerList.getListenerList();
 
@@ -105,10 +135,14 @@ public class MainUI {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                MainUI gui = new MainUI();
                 JFrame frame = new JFrame("Smash DB");
-                frame.setContentPane(new MainUI().panel1);
+                frame.setJMenuBar(gui.createMenuBar());
+                frame.setContentPane(gui.panel1);
                 frame.setSize(800, 500);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.pack();
+                frame.repaint();
                 frame.setVisible(true);
             }
         });
