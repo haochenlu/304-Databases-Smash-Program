@@ -15,6 +15,7 @@ public class MainUI {
     private String char1;
     private String char2;
     private String stage;
+    private int params;
     private EventListenerList listenerList = new EventListenerList();
 
 
@@ -80,7 +81,8 @@ public class MainUI {
                 char2 = second.toString();
                 Object st = stage_box.getSelectedItem();
                 stage = st.toString();
-                String[] params = {char1, char2, stage};
+                String[] characters = {char1, char2, stage};
+                fireQueryEvent(new QueryEvent(this, params, characters));
             }
         });
         set_param_button.addActionListener(new ActionListener() {
