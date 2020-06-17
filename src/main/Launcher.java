@@ -19,15 +19,17 @@ public class Launcher {
         } catch (Exception badFile) {
             System.out.println("File not found");
         }
-        String out = "";
+        ArrayList<ArrayList<String>> out = new ArrayList<ArrayList<String>>();;
         int count = 0;
         for (String line: lines) {
             backend.load(line);
-            //System.out.println(Integer.toString(count));
             count++;
         }
-        out = backend.query("select sgID from shieldgroup");
-        System.out.println(out);
+        out = backend.query("select hsSize\n" + "from shieldgroup\n", new String[]{"hsSize"}, new String[]{"float"});
+        System.out.println(out.toString());
+        backend.load("update grabgroup set gdFrames = 10 where ggID = '26_gg'");
+        out = backend.query("select gdFrames\n" + "from grabgroup\n" + "where ggID = '26_gg'\n", new String[]{"gdFrames"}, new String[]{"int"});
+        System.out.println(out.toString());
         backend.close();
     }
 }

@@ -36,20 +36,34 @@ public class Backend {
         }
     }
 
-    public String query(String query) {
-        ArrayList<String> result = new ArrayList<String>();
+    public ArrayList<ArrayList<String>> query(String query, String[]columns, String[]types) {
+        ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             String ret = "";
             while(rs.next()) {
-                ret = ret + rs.getString("sgID") + "\n";
+                ArrayList<String> line = new ArrayList<String>();
+                for (int c = 0; c < columns.length; c++) {
+                    if (types[c] == "int") {
+                        line.add(Integer.toString(rs.getInt(columns[c])));
+                    } else if (types[c] == "float") {
+                        line.add(Float.toString(rs.getFloat(columns[c])));
+                    } else {
+                        line.add(rs.getString(columns[c]));
+                    }
+                }
+                result.add(line);
+                //ret = ret + rs.getString("sgID") + "\n";
             }
             rs.close();
             stmt.close();
-            return ret;
+            return result;
         } catch(Exception e) {
-            return e.getMessage();
+            ArrayList<String> line = new ArrayList<String>();
+            line.add(e.getMessage());
+            result.add(line);
+            return result;
         }
     }
 
