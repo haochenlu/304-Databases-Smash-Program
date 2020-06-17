@@ -1,6 +1,6 @@
 package gui;
-
 import javax.swing.*;
+import javax.swing.event.EventListenerList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -12,6 +12,11 @@ public class MainUI {
     private JComboBox stage_box;
     private JButton generate_button;
     private JButton set_param_button;
+    private String char1;
+    private String char2;
+    private String stage;
+    private EventListenerList listenerList = new EventListenerList();
+
 
     protected enum characterList {
         DR_MARIO,
@@ -66,29 +71,16 @@ public class MainUI {
         for (String stage : stage_array) {
             stage_box.addItem(stage);
         }
-        character_box_1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        character_box_2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-
-            }
-        });
-        stage_box.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         generate_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Object first = character_box_1.getSelectedItem();
+                char1 = first.toString();
+                Object second = character_box_2.getSelectedItem();
+                char2 = second.toString();
+                Object st = stage_box.getSelectedItem();
+                stage = st.toString();
+                String[] params = {char1, char2, stage};
             }
         });
         set_param_button.addActionListener(new ActionListener() {
@@ -97,6 +89,15 @@ public class MainUI {
 
             }
         });
+    }
+    public void fireQueryEvent(QueryEvent event) {
+        Object[] listeners = listenerList.getListenerList();
+
+        for (int i = 0; i < listeners.length; i += 2) {
+            if (listeners[i] == InputListener.class) {
+                ((InputListener)listeners[i + 1]).inputEventOccured(event);
+            }
+        }
     }
 
     public static void main(String[] args) {
