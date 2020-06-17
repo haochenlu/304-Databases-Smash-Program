@@ -102,14 +102,19 @@ public class MainUI {
         menu.addSeparator();
         ButtonGroup group = new ButtonGroup();
 
-        rbMenuItem = new JRadioButtonMenuItem("A radio button menu item");
+        rbMenuItem = new JRadioButtonMenuItem("Compare X");
         rbMenuItem.setSelected(true);
         rbMenuItem.setMnemonic(KeyEvent.VK_R);
         group.add(rbMenuItem);
         menu.add(rbMenuItem);
 
-        rbMenuItem = new JRadioButtonMenuItem("Another one");
+        rbMenuItem = new JRadioButtonMenuItem("Compare Y");
         rbMenuItem.setMnemonic(KeyEvent.VK_O);
+        group.add(rbMenuItem);
+        menu.add(rbMenuItem);
+
+        rbMenuItem = new JRadioButtonMenuItem("Compare Z");
+        rbMenuItem.setMnemonic(KeyEvent.VK_P);
         group.add(rbMenuItem);
         menu.add(rbMenuItem);
         return menuBar;
