@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import gui.QueryEvent;
 import gui.QueryListener;
+import gui.gui.BackgroundFrame;
 
 public class MainUI {
     private JPanel panel1;
@@ -22,6 +23,7 @@ public class MainUI {
     private String char2;
     private String stage;
     private int params;
+    private Image img = null;
     private EventListenerList listenerList = new EventListenerList();
 
 
@@ -71,6 +73,7 @@ public class MainUI {
     public MainUI() {
         String[] character_array = getNames(characterList.class);
         String[] stage_array = getNames(stageList.class);
+        panel1.setOpaque(true);
         for (String character : character_array) {
             character_box_1.addItem(character);
             character_box_2.addItem(character);
@@ -91,18 +94,6 @@ public class MainUI {
                 fireQueryEvent(new QueryEvent(this, params, characters));
             }
         });
-    }
-
-    public void paintComponent(Graphics g)
-    {
-        Image img = null;
-        try {
-            img = ImageIO.read(new File("ssbm.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // Draw the previously loaded image to Component.
-        g.drawImage(img, 0, 0, null);
 
     }
 
@@ -142,7 +133,7 @@ public class MainUI {
 
         for (int i = 0; i < listeners.length; i += 2) {
             if (listeners[i] == QueryListener.class) {
-                ((QueryListener)listeners[i + 1]).QueryEventOccured(event);
+                ((QueryListener) listeners[i + 1]).QueryEventOccured(event);
             }
         }
     }
@@ -152,9 +143,13 @@ public class MainUI {
             public void run() {
                 MainUI gui = new MainUI();
                 JFrame frame = new JFrame("Smash DB");
+                frame.setLayout(new BorderLayout());
+                frame.setContentPane(new JLabel(new ImageIcon("C:\\Users\\haoch\\UBC CS\\jav\\304-Databases-Smash-Program\\src\\gui\\gui\\ssbm.jpg")));
+                frame.setLayout(new FlowLayout());
+                frame.add(gui.panel1);
+                frame.setSize(399,399);
                 frame.setJMenuBar(gui.createMenuBar());
-                System.out.println(gui.createMenuBar());
-                frame.setContentPane(gui.panel1);
+                gui.panel1.setOpaque(false);
                 frame.setSize(800, 500);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
