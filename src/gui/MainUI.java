@@ -1,9 +1,16 @@
 package gui;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.EventListenerList;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import gui.QueryEvent;
+import gui.QueryListener;
 
 public class MainUI {
     private JPanel panel1;
@@ -11,7 +18,6 @@ public class MainUI {
     private JComboBox character_box_2;
     private JComboBox stage_box;
     private JButton generate_button;
-    private JButton set_param_button;
     private String char1;
     private String char2;
     private String stage;
@@ -85,13 +91,52 @@ public class MainUI {
                 fireQueryEvent(new QueryEvent(this, params, characters));
             }
         });
-        set_param_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
     }
+
+    public void paintComponent(Graphics g)
+    {
+        Image img = null;
+        try {
+            img = ImageIO.read(new File("ssbm.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Draw the previously loaded image to Component.
+        g.drawImage(img, 0, 0, null);
+
+    }
+
+    public JMenuBar createMenuBar() {
+        JMenuBar menuBar;
+        JRadioButtonMenuItem rbMenuItem;
+        JMenu menu;
+        menuBar = new JMenuBar();
+        menu = new JMenu("Set Parameters");
+        menu.setMnemonic(KeyEvent.VK_A);
+        menu.getAccessibleContext().setAccessibleDescription(
+                "Specify the query you want");
+        menuBar.add(menu);
+        menu.addSeparator();
+        ButtonGroup group = new ButtonGroup();
+
+        rbMenuItem = new JRadioButtonMenuItem("Compare X");
+        rbMenuItem.setSelected(true);
+        rbMenuItem.setMnemonic(KeyEvent.VK_R);
+        group.add(rbMenuItem);
+        menu.add(rbMenuItem);
+
+        rbMenuItem = new JRadioButtonMenuItem("Compare Y");
+        rbMenuItem.setMnemonic(KeyEvent.VK_O);
+        group.add(rbMenuItem);
+        menu.add(rbMenuItem);
+
+        rbMenuItem = new JRadioButtonMenuItem("Compare Z");
+        rbMenuItem.setMnemonic(KeyEvent.VK_P);
+        group.add(rbMenuItem);
+        menu.add(rbMenuItem);
+        return menuBar;
+    }
+
     public void fireQueryEvent(QueryEvent event) {
         Object[] listeners = listenerList.getListenerList();
 
@@ -105,8 +150,11 @@ public class MainUI {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                MainUI gui = new MainUI();
                 JFrame frame = new JFrame("Smash DB");
-                frame.setContentPane(new MainUI().panel1);
+                frame.setJMenuBar(gui.createMenuBar());
+                System.out.println(gui.createMenuBar());
+                frame.setContentPane(gui.panel1);
                 frame.setSize(800, 500);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
