@@ -14,7 +14,6 @@ public class MainUI {
     private JComboBox character_box_2;
     private JComboBox stage_box;
     private JButton generate_button;
-    private JButton set_param_button;
     private String char1;
     private String char2;
     private String stage;
@@ -88,12 +87,6 @@ public class MainUI {
                 fireQueryEvent(new QueryEvent(this, params, characters));
             }
         });
-        set_param_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
     }
 
     public JMenuBar createMenuBar() {
@@ -101,10 +94,10 @@ public class MainUI {
         JRadioButtonMenuItem rbMenuItem;
         JMenu menu;
         menuBar = new JMenuBar();
-        menu = new JMenu("A Menu");
+        menu = new JMenu("Set Parameters");
         menu.setMnemonic(KeyEvent.VK_A);
         menu.getAccessibleContext().setAccessibleDescription(
-                "The only menu in this program that has menu items");
+                "Specify the query you want");
         menuBar.add(menu);
         menu.addSeparator();
         ButtonGroup group = new ButtonGroup();
@@ -138,11 +131,10 @@ public class MainUI {
                 MainUI gui = new MainUI();
                 JFrame frame = new JFrame("Smash DB");
                 frame.setJMenuBar(gui.createMenuBar());
+                System.out.println(gui.createMenuBar());
                 frame.setContentPane(gui.panel1);
                 frame.setSize(800, 500);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.repaint();
                 frame.setVisible(true);
             }
         });
