@@ -1,13 +1,17 @@
 package gui.gui;
 
+import main.Backend;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 public class OtherQueryUI implements ItemListener {
+    private Backend backend;
     public JPanel container;
     private JComboBox CardSelection;
     private JTextField textField1;
@@ -49,7 +53,8 @@ public class OtherQueryUI implements ItemListener {
     final static String NESTED_AGGREGATION = "Nested Aggregation";
     final static String DIVISION = "Division";
 
-    public OtherQueryUI() {
+    public OtherQueryUI(Backend b) {
+        backend = b;
         String[] comboBoxItems = {INSERT, DELETE, UPDATE, SELECTION, PROJECTION, JOIN, AGGREGATION, NESTED_AGGREGATION, DIVISION};
         System.out.println(comboBoxItems);
         for (String op : comboBoxItems) {
@@ -106,13 +111,13 @@ public class OtherQueryUI implements ItemListener {
         });
     }
 
-    private static void createAndShowGUI() {
+    private static void createAndShowGUI(Backend b) {
         //Create and set up the window.
         JFrame frame = new JFrame("CardLayoutDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Create and set up the content pane.
-        OtherQueryUI demo = new OtherQueryUI();
+        OtherQueryUI demo = new OtherQueryUI(b);
         frame.setContentPane(demo.container);
 
         //Display the window.
@@ -141,7 +146,7 @@ public class OtherQueryUI implements ItemListener {
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                createAndShowGUI();
+                createAndShowGUI(new Backend());
             }
         });
     }
