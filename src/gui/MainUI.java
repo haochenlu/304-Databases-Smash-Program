@@ -17,7 +17,7 @@ import gui.QueryEvent;
 import gui.QueryListener;
 import gui.gui.BackgroundFrame;
 import main.Backend;
-import main.Launcher
+import main.Launcher;
 import gui.gui.OtherQueryUI;
 
 public class MainUI implements ActionListener {
@@ -57,7 +57,7 @@ public class MainUI implements ActionListener {
         if (e.getActionCommand() == PROJECTION) {
             frame.getContentPane().add(gui.panel1);
         } else {
-            OtherQueryUI queryUI = new OtherQueryUI();
+            OtherQueryUI queryUI = new OtherQueryUI(backend);
             queryUI.container.setOpaque(false);
             frame.getContentPane().add(queryUI.container);
         }
@@ -139,7 +139,11 @@ public class MainUI implements ActionListener {
                     params[i] = selected;
                 }
                 fireQueryEvent(new QueryEvent(this, params, characters));
-                ArrayList<ArrayList<String>> result = backend.query("select c1ID, c2ID, stID \n" + "from shieldgroup\n", new String[]{"hsSize"}, new String[]{"float"});
+                ArrayList<ArrayList<String>> result = backend.query("select c1.cID, c1.weight, c1.gravity, c2.cID, c2.weight, c2.gravity, st.stID, st.s\n" +
+                                "from characterdata c1, characterdata c2, fights f, stages st\n" +
+                                "where c1.cID = '" + char1 + "' AND c2.cID = '" + char2 + "' AND f.c1ID = c1.cID AND f.c2ID = c2.cID AND f.stID = st.stID AND st.stID = '" + stage + "'\n",
+                        new String[]{"c1.cID", "c1.weight", "c1.gravity", "c2.cID", "c2.weight", "c2.gravity",  "st.stID", "st.s"}, new String[]{"string", "int", "float", "string", "int", "float", "string", "int"});
+                System.out.println(result);
             }
         });
 
