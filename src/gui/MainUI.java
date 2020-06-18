@@ -16,6 +16,7 @@ import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
 import gui.QueryEvent;
 import gui.QueryListener;
 import gui.gui.BackgroundFrame;
+import gui.gui.ResultPopup;
 import main.Backend;
 import main.Launcher;
 import gui.gui.OtherQueryUI;
@@ -110,7 +111,7 @@ public class MainUI implements ActionListener {
 
     public MainUI() {
         backend = new Backend();
-        backend.login("ora_mkalina", "a92772482");
+        backend.login("ora_hclu", "a98241326");
         Launcher.start(backend);
         panel1.setOpaque(true);
         for (String character : character_array) {
@@ -141,7 +142,8 @@ public class MainUI implements ActionListener {
                                 "from characterdata c1, characterdata c2, fights f, stages st\n" +
                                 "where c1.cID = '" + char1 + "' AND c2.cID = '" + char2 + "' AND f.c1ID = c1.cID AND f.c2ID = c2.cID AND f.stID = st.stID AND st.stID = '" + stage + "'\n",
                         new String[]{"c1.cID", "c1.weight", "c1.gravity", "c2.cID", "c2.weight", "c2.gravity",  "st.stID", "st.s"}, new String[]{"string", "int", "float", "string", "int", "float", "string", "int"});
-                System.out.println(result);
+                ResultPopup resultPopup = new ResultPopup(result);
+                resultPopup.createAndShowGUI();
             }
         });
 
