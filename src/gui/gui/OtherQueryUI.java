@@ -57,6 +57,7 @@ public class OtherQueryUI implements ItemListener {
     final static String AGGREGATION = "Aggregation";
     final static String NESTED_AGGREGATION = "Nested Aggregation";
     final static String DIVISION = "Division";
+    private boolean[] delParams;
 
     public OtherQueryUI() {
         String[] comboBoxItems = {INSERT, DELETE, UPDATE, SELECTION, PROJECTION, JOIN, AGGREGATION, NESTED_AGGREGATION, DIVISION};
@@ -123,9 +124,10 @@ public class OtherQueryUI implements ItemListener {
         projectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < items.size(); i++) {
-                    boolean selected = items.get(i).isSelected();
-                    params[i] = selected;
+                delParams = new boolean[7];
+                for (int i = 0; i < deleteChecks.size(); i++) {
+                    boolean selected = deleteChecks.get(i).isSelected();
+                    delParams[i] = selected;
                 }
             }
         });
