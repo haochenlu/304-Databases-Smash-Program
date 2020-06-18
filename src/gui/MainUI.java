@@ -5,18 +5,26 @@ import javax.swing.event.EventListenerList;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
 import gui.QueryEvent;
 import gui.QueryListener;
 import gui.gui.BackgroundFrame;
 import main.Backend;
-import main.Launcher;
+import main.Launcher
+import gui.gui.OtherQueryUI;
 
-public class MainUI {
+public class MainUI implements ActionListener {
+    public static JFrame frame;
+    public static MainUI gui;
+    private static final String ELSE = "else";
+    private static final String PROJECTION = "projection";
     private JPanel panel1;
     private JComboBox character_box_1;
     private JComboBox character_box_2;
@@ -25,11 +33,37 @@ public class MainUI {
     private String char1;
     private String char2;
     private String stage;
-    private int params;
+    private boolean[] params;
     private Image img = null;
     private EventListenerList listenerList = new EventListenerList();
     private Backend backend;
 
+
+    private JCheckBoxMenuItem weight;
+    private JCheckBoxMenuItem gravity;
+    private JCheckBoxMenuItem attacks;
+    private JCheckBoxMenuItem shields;
+    private JCheckBoxMenuItem jumps;
+    private JCheckBoxMenuItem stage_size;
+    private JCheckBoxMenuItem platforms;
+    private JCheckBoxMenuItem hazards;
+    private JRadioButtonMenuItem projection;
+    private JRadioButtonMenuItem others;
+    ArrayList<JCheckBoxMenuItem> items = new ArrayList<>();
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        frame.getContentPane().removeAll();
+        if (e.getActionCommand() == PROJECTION) {
+            frame.getContentPane().add(gui.panel1);
+        } else {
+            OtherQueryUI queryUI = new OtherQueryUI();
+            queryUI.container.setOpaque(false);
+            frame.getContentPane().add(queryUI.container);
+        }
+        frame.getContentPane().revalidate();
+        frame.repaint();
+    }
 
     protected enum characterList {
         DR_MARIO,
@@ -98,6 +132,12 @@ public class MainUI {
                 Object st = stage_box.getSelectedItem();
                 stage = st.toString();
                 String[] characters = {char1, char2, stage};
+                params = new boolean[8];
+                Arrays.fill(params, Boolean.FALSE);
+                for (int i = 0; i < items.size(); i++) {
+                    boolean selected = items.get(i).isSelected();
+                    params[i] = selected;
+                }
                 fireQueryEvent(new QueryEvent(this, params, characters));
                 ArrayList<ArrayList<String>> result = backend.query("select c1ID, c2ID, stID \n" + "from shieldgroup\n", new String[]{"hsSize"}, new String[]{"float"});
             }
@@ -107,7 +147,6 @@ public class MainUI {
 
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
-        JRadioButtonMenuItem rbMenuItem;
         JMenu menu;
         menuBar = new JMenuBar();
         menu = new JMenu("Set Parameters");
@@ -118,23 +157,66 @@ public class MainUI {
         menu.addSeparator();
         ButtonGroup group = new ButtonGroup();
 
-        rbMenuItem = new JRadioButtonMenuItem("Compare X");
-        rbMenuItem.setSelected(true);
-        rbMenuItem.setMnemonic(KeyEvent.VK_R);
-        group.add(rbMenuItem);
-        menu.add(rbMenuItem);
+        projection = new JRadioButtonMenuItem("Projection menu");
+        projection.setSelected(true);
+        projection.setMnemonic(KeyEvent.VK_P);
+        group.add(projection);
+        menu.add(projection);
+        projection.setActionCommand(PROJECTION);
+        projection.addActionListener(this);
 
-        rbMenuItem = new JRadioButtonMenuItem("Compare Y");
-        rbMenuItem.setMnemonic(KeyEvent.VK_O);
-        group.add(rbMenuItem);
-        menu.add(rbMenuItem);
 
-        rbMenuItem = new JRadioButtonMenuItem("Compare Z");
-        rbMenuItem.setMnemonic(KeyEvent.VK_P);
-        group.add(rbMenuItem);
-        menu.add(rbMenuItem);
+        others = new JRadioButtonMenuItem("Everything Else");
+        others.setMnemonic(KeyEvent.VK_E);
+        group.add(others);
+        menu.add(others);
+        others.setActionCommand(ELSE);
+        others.addActionListener(this);
+
+        menu.addSeparator();
+        weight = new JCheckBoxMenuItem("Weight");
+        weight.setMnemonic(KeyEvent.VK_W);
+        menu.add(weight);
+        items.add(weight);
+
+        gravity = new JCheckBoxMenuItem("Gravity");
+        gravity.setMnemonic(KeyEvent.VK_G);
+        menu.add(gravity);
+        items.add(gravity);
+
+        attacks = new JCheckBoxMenuItem("Attacks");
+        attacks.setMnemonic(KeyEvent.VK_A);
+        menu.add(attacks);
+        items.add(attacks);
+
+        shields = new JCheckBoxMenuItem("Shields");
+        shields.setMnemonic(KeyEvent.VK_S);
+        menu.add(shields);
+        items.add(shields);
+
+        jumps = new JCheckBoxMenuItem("Jumps");
+        jumps.setMnemonic(KeyEvent.VK_J);
+        menu.add(jumps);
+        items.add(jumps);
+
+        stage_size = new JCheckBoxMenuItem("Stage Size");
+        stage_size.setMnemonic(KeyEvent.VK_I);
+        menu.add(stage_size);
+        items.add(stage_size);
+
+        hazards = new JCheckBoxMenuItem("Hazards");
+        hazards.setMnemonic(KeyEvent.VK_Z);
+        menu.add(hazards);
+        items.add(hazards);
+
+        platforms = new JCheckBoxMenuItem("Platforms");
+        platforms.setMnemonic(KeyEvent.VK_P);
+        menu.add(platforms);
+        items.add(platforms);
+
         return menuBar;
     }
+
 
     public void fireQueryEvent(QueryEvent event) {
         Object[] listeners = listenerList.getListenerList();
@@ -149,8 +231,8 @@ public class MainUI {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                MainUI gui = new MainUI();
-                JFrame frame = new JFrame("Smash DB");
+                gui = new MainUI();
+                frame = new JFrame("Smash DB");
                 frame.setLayout(new BorderLayout());
                 frame.setContentPane(new JLabel(new ImageIcon("C:\\Users\\haoch\\UBC CS\\jav\\304-Databases-Smash-Program\\src\\gui\\gui\\ssbm.jpg")));
                 frame.setLayout(new FlowLayout());
