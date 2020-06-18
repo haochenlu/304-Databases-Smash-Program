@@ -8,10 +8,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import gui.QueryEvent;
 import gui.QueryListener;
 import gui.gui.BackgroundFrame;
+import main.Backend;
+import main.Launcher;
 
 public class MainUI {
     private JPanel panel1;
@@ -25,6 +28,7 @@ public class MainUI {
     private int params;
     private Image img = null;
     private EventListenerList listenerList = new EventListenerList();
+    private Backend backend;
 
 
     protected enum characterList {
@@ -71,6 +75,9 @@ public class MainUI {
 
 
     public MainUI() {
+        backend = new Backend();
+        backend.login("ora_mkalina", "a92772482");
+        Launcher.start(backend);
         String[] character_array = getNames(characterList.class);
         String[] stage_array = getNames(stageList.class);
         panel1.setOpaque(true);
@@ -92,6 +99,7 @@ public class MainUI {
                 stage = st.toString();
                 String[] characters = {char1, char2, stage};
                 fireQueryEvent(new QueryEvent(this, params, characters));
+                ArrayList<ArrayList<String>> result = backend.query("select c1ID, c2ID, stID \n" + "from shieldgroup\n", new String[]{"hsSize"}, new String[]{"float"});
             }
         });
 
