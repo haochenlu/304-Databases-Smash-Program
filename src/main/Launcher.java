@@ -15,7 +15,7 @@ public class Launcher {
         backend.login("ora_mkalina", "a92772482");
         List<String> lines = new ArrayList<String>();
         try {
-            lines = Files.readAllLines(Paths.get(file));   //taken from FileReaderWriter in Deliverable 4
+            lines = Files.readAllLines(Paths.get(file));
         } catch (Exception badFile) {
             System.out.println("File not found");
         }
@@ -31,5 +31,21 @@ public class Launcher {
         out = backend.query("select gdFrames\n" + "from grabgroup\n" + "where ggID = '26_gg'\n", new String[]{"gdFrames"}, new String[]{"int"});
         System.out.println(out.toString());
         backend.close();
+    }
+
+    public static void start(Backend backend) {
+        List<String> lines = new ArrayList<String>();
+        try {
+            lines = Files.readAllLines(Paths.get(file));
+        } catch (Exception badFile) {
+            System.out.println("File not found");
+        }
+        ArrayList<ArrayList<String>> out = new ArrayList<ArrayList<String>>();;
+        int count = 0;
+        for (String line: lines) {
+            backend.load(line);
+            count++;
+            //System.out.println(count);
+        }
     }
 }
