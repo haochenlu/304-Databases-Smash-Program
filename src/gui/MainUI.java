@@ -143,10 +143,25 @@ public class MainUI implements ActionListener {
                                 "where c1.cID = '" + char1 + "' AND c2.cID = '" + char2 + "' AND f.c1ID = c1.cID AND f.c2ID = c2.cID AND f.stID = st.stID AND st.stID = '" + stage + "'\n",
                         new String[]{"c1.cID", "c1.weight", "c1.gravity", "c2.cID", "c2.weight", "c2.gravity",  "st.stID", "st.s"}, new String[]{"string", "int", "float", "string", "int", "float", "string", "int"});
                 ResultPopup resultPopup = new ResultPopup(result);
-                resultPopup.createAndShowGUI();
+                createPopup(resultPopup);
             }
         });
 
+    }
+
+    private void createPopup(ResultPopup resultPopup) {
+
+        JFrame frame = new JFrame("Query Results");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        resultPopup.panel1.setOpaque(true);
+        frame.setContentPane(resultPopup.panel1);
+
+        JFrame.setDefaultLookAndFeelDecorated(true);
+
+        frame.pack();
+        frame.setSize(800, 600);
+        frame.setVisible(true);
     }
 
     public JMenuBar createMenuBar() {
