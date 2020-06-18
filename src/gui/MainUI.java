@@ -65,42 +65,42 @@ public class MainUI implements ActionListener {
         frame.repaint();
     }
 
-    protected enum characterList {
-        DR_MARIO,
-        MARIO,
-        LUIGI,
-        BOWSER,
-        PEACH,
-        YOSHI,
-        DONKEY_KONG,
-        CAPTAIN_FALCON,
-        GANONDORF,
-        FALCO,
-        FOX,
-        NESS,
-        ICE_CLIMBERS,
-        KIRBY,
-        SAMUS,
-        ZELDA,
-        LINK,
-        YOUNG_LINK,
-        PICHU,
-        PIKACHU,
-        JIGGLYPUFF,
-        MEWTWO,
-        GAME_AND_WATCH,
-        MARTH,
-        ROY
-    }
+    protected String[] character_array = {
+        "Dr. Mario",
+        "Mario",
+        "Luigi",
+        "Bowser",
+        "Peach",
+        "Yoshi",
+        "Donkey Kong",
+        "Captain Falcon",
+        "Ganondorf",
+        "Falco",
+        "Fox",
+        "Ness",
+        "Ice Climbers",
+        "Kirby",
+        "Samus",
+        "Zelda",
+        "Link",
+        "Young Link",
+        "Pichu",
+        "Pikachu",
+        "Jigglypuff",
+        "Mewtwo",
+        "Mr. Game and Watch",
+        "Marth",
+        "Roy"
+    };
 
-    protected enum stageList {
-        YOSHIS_STORY,
-        FINAL_DESTINATION,
-        FOUNTAIN_OF_DREAMS,
-        DREAMLAND,
-        BATTLEFIELD,
-        POKEMON_STADIUM
-    }
+    protected String[] stage_array = {
+        "Yoshis Story",
+        "Final Destination",
+        "Fountain of Dreams",
+        "Dreamland",
+        "Battlefield",
+        "Pokemon Stadium"
+    };
 
 
     public static String[] getNames(Class<? extends Enum<?>> e) {
@@ -112,8 +112,6 @@ public class MainUI implements ActionListener {
         backend = new Backend();
         backend.login("ora_mkalina", "a92772482");
         Launcher.start(backend);
-        String[] character_array = getNames(characterList.class);
-        String[] stage_array = getNames(stageList.class);
         panel1.setOpaque(true);
         for (String character : character_array) {
             character_box_1.addItem(character);

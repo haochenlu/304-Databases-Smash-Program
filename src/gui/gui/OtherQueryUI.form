@@ -173,7 +173,7 @@
           <grid id="2d1ab" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="Select"/>
+              <card name="Selection"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -475,6 +475,85 @@
                 </constraints>
                 <properties>
                   <text value="Character"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="85b3e" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <card name="Projection"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="7640e" class="javax.swing.JButton" binding="projectionButton" default-binding="true">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Projection"/>
+                </properties>
+              </component>
+              <vspacer id="bbcb4">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <component id="da10" class="javax.swing.JCheckBox" binding="percentDoneUnstalledCheckBox" default-binding="true">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Percent Done Unstalled"/>
+                </properties>
+              </component>
+              <component id="b1c64" class="javax.swing.JCheckBox" binding="IASACheckBox" default-binding="true">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="IASA"/>
+                </properties>
+              </component>
+              <component id="e05df" class="javax.swing.JCheckBox" binding="activeCheckBox" default-binding="true">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Active"/>
+                </properties>
+              </component>
+              <component id="919cc" class="javax.swing.JCheckBox" binding="totalCheckBox" default-binding="true">
+                <constraints>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Total"/>
+                </properties>
+              </component>
+              <component id="d681d" class="javax.swing.JCheckBox" binding="typeCheckBox" default-binding="true">
+                <constraints>
+                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Type"/>
+                </properties>
+              </component>
+              <component id="3575d" class="javax.swing.JCheckBox" binding="characterIDCheckBox" default-binding="true">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Character ID"/>
+                </properties>
+              </component>
+              <component id="a2dc3" class="javax.swing.JCheckBox" binding="directionCheckBox" default-binding="true">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Direction"/>
                 </properties>
               </component>
             </children>

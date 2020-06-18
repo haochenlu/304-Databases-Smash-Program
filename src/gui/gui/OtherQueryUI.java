@@ -43,6 +43,14 @@ public class OtherQueryUI implements ItemListener {
     private JButton divisionButton;
     private JComboBox comboBox7;
     private JPanel cardPanel;
+    private JButton projectionButton;
+    private JCheckBox activeCheckBox;
+    private JCheckBox totalCheckBox;
+    private JCheckBox percentDoneUnstalledCheckBox;
+    private JCheckBox IASACheckBox;
+    private JCheckBox typeCheckBox;
+    private JCheckBox characterIDCheckBox;
+    private JCheckBox directionCheckBox;
     final static String INSERT = "Insert";
     final static String DELETE = "Delete";
     final static String UPDATE = "Update";
@@ -52,6 +60,7 @@ public class OtherQueryUI implements ItemListener {
     final static String AGGREGATION = "Aggregation";
     final static String NESTED_AGGREGATION = "Nested Aggregation";
     final static String DIVISION = "Division";
+    private boolean[] delParams;
 
     public OtherQueryUI(Backend b) {
         backend = b;
@@ -60,6 +69,13 @@ public class OtherQueryUI implements ItemListener {
         for (String op : comboBoxItems) {
             CardSelection.addItem(op);
         }
+        ArrayList<JCheckBox> deleteChecks = new ArrayList<>();
+        deleteChecks.add(activeCheckBox);
+        deleteChecks.add(totalCheckBox);
+        deleteChecks.add(percentDoneUnstalledCheckBox);
+        deleteChecks.add(IASACheckBox);
+        deleteChecks.add(typeCheckBox);
+        deleteChecks.add(characterIDCheckBox);
         CardSelection.addItemListener(this);
         insertButton.addActionListener(new ActionListener() {
             @Override
@@ -107,6 +123,16 @@ public class OtherQueryUI implements ItemListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+            }
+        });
+        projectionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                delParams = new boolean[7];
+                for (int i = 0; i < deleteChecks.size(); i++) {
+                    boolean selected = deleteChecks.get(i).isSelected();
+                    delParams[i] = selected;
+                }
             }
         });
     }
