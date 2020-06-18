@@ -16,8 +16,13 @@ import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
 import gui.QueryEvent;
 import gui.QueryListener;
 import gui.gui.BackgroundFrame;
+import gui.gui.OtherQueryUI;
 
-public class MainUI {
+public class MainUI implements ActionListener {
+    public static JFrame frame;
+    public static MainUI gui;
+    private static final String ELSE = "else";
+    private static final String PROJECTION = "projection";
     private JPanel panel1;
     private JComboBox character_box_1;
     private JComboBox character_box_2;
@@ -37,7 +42,23 @@ public class MainUI {
     private JCheckBoxMenuItem stage_size;
     private JCheckBoxMenuItem platforms;
     private JCheckBoxMenuItem hazards;
+    private JRadioButtonMenuItem projection;
+    private JRadioButtonMenuItem others;
     ArrayList<JCheckBoxMenuItem> items = new ArrayList<>();
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        frame.getContentPane().removeAll();
+        if (e.getActionCommand() == PROJECTION) {
+            frame.getContentPane().add(gui.panel1);
+        } else {
+            OtherQueryUI queryUI = new OtherQueryUI();
+            queryUI.container.setOpaque(false);
+            frame.getContentPane().add(queryUI.container);
+        }
+        frame.getContentPane().revalidate();
+        frame.repaint();
+    }
 
     protected enum characterList {
         DR_MARIO,
@@ -117,8 +138,6 @@ public class MainUI {
 
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
-        JCheckBoxMenuItem cbMenuItem;
-        JRadioButtonMenuItem rbMenuItem;
         JMenu menu;
         menuBar = new JMenuBar();
         menu = new JMenu("Set Parameters");
@@ -129,16 +148,21 @@ public class MainUI {
         menu.addSeparator();
         ButtonGroup group = new ButtonGroup();
 
-        rbMenuItem = new JRadioButtonMenuItem("Projection menu");
-        rbMenuItem.setSelected(true);
-        rbMenuItem.setMnemonic(KeyEvent.VK_P);
-        group.add(rbMenuItem);
-        menu.add(rbMenuItem);
+        projection = new JRadioButtonMenuItem("Projection menu");
+        projection.setSelected(true);
+        projection.setMnemonic(KeyEvent.VK_P);
+        group.add(projection);
+        menu.add(projection);
+        projection.setActionCommand(PROJECTION);
+        projection.addActionListener(this);
 
-        rbMenuItem = new JRadioButtonMenuItem("Everything Else");
-        rbMenuItem.setMnemonic(KeyEvent.VK_E);
-        group.add(rbMenuItem);
-        menu.add(rbMenuItem);
+
+        others = new JRadioButtonMenuItem("Everything Else");
+        others.setMnemonic(KeyEvent.VK_E);
+        group.add(others);
+        menu.add(others);
+        others.setActionCommand(ELSE);
+        others.addActionListener(this);
 
         menu.addSeparator();
         weight = new JCheckBoxMenuItem("Weight");
@@ -198,8 +222,8 @@ public class MainUI {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                MainUI gui = new MainUI();
-                JFrame frame = new JFrame("Smash DB");
+                gui = new MainUI();
+                frame = new JFrame("Smash DB");
                 frame.setLayout(new BorderLayout());
                 frame.setContentPane(new JLabel(new ImageIcon("C:\\Users\\haoch\\UBC CS\\jav\\304-Databases-Smash-Program\\src\\gui\\gui\\ssbm.jpg")));
                 frame.setLayout(new FlowLayout());

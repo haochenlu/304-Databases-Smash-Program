@@ -8,7 +8,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class OtherQueryUI implements ItemListener {
-    private JPanel container;
+    public JPanel container;
     private JComboBox CardSelection;
     private JTextField textField1;
     private JLabel SGNum;
@@ -51,9 +51,11 @@ public class OtherQueryUI implements ItemListener {
 
     public OtherQueryUI() {
         String[] comboBoxItems = {INSERT, DELETE, UPDATE, SELECTION, PROJECTION, JOIN, AGGREGATION, NESTED_AGGREGATION, DIVISION};
+        System.out.println(comboBoxItems);
         for (String op : comboBoxItems) {
             CardSelection.addItem(op);
         }
+        CardSelection.addItemListener(this);
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -114,6 +116,7 @@ public class OtherQueryUI implements ItemListener {
         frame.setContentPane(demo.container);
 
         //Display the window.
+        frame.setSize(800, 500);
         frame.pack();
         frame.setVisible(true);
     }
@@ -144,7 +147,9 @@ public class OtherQueryUI implements ItemListener {
     }
     @Override
     public void itemStateChanged(ItemEvent e) {
+        System.out.println("event!");
         CardLayout cl = (CardLayout)(cardPanel.getLayout());
         cl.show(cardPanel, (String)e.getItem());
     }
+
 }
