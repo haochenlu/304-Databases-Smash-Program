@@ -34,10 +34,8 @@ public class OtherQueryUI implements ItemListener {
     private JComboBox comboBox3;
     private JComboBox comboBox4;
     private JComboBox comboBox5;
-    private JComboBox comboBox6;
     private JButton nestedAggregationButton;
     private JButton divisionButton;
-    private JComboBox comboBox7;
     private JPanel cardPanel;
     private JButton projectionButton;
     private JCheckBox activeCheckBox;
@@ -112,8 +110,6 @@ public class OtherQueryUI implements ItemListener {
         }
         for (String character : character_array) {
             selectionCharBox.addItem(character);
-            joinCharBox.addItem(character);
-            comboBox7.addItem(character);
         }
         for (String type : attack_type) {
             comboBox4.addItem(type);
@@ -162,7 +158,7 @@ public class OtherQueryUI implements ItemListener {
             public void actionPerformed(ActionEvent e) {
                 String shHeight = selectionHeight.getSelectedText();
                 // String selectedChar = selectionCharBox.getSelectedItem().toString();
-                String query = "select jgID\n from jumpgroup\n where shHeight > " + shHeight;
+                String query = "select jgID\n from jumpgroup\n where shHeight > " + shHeight + "\n";
                 ArrayList<ArrayList<String>> result = backend.query(query, 1);
                 ResultPopup resultPopup = new ResultPopup(result);
                 createPopup(resultPopup);
@@ -177,7 +173,7 @@ public class OtherQueryUI implements ItemListener {
                 String attackStat = textField11.getSelectedText();
                 String queryString = "select a.cID, a.direction, a.type\n from characterattack a, attackstat s\n " +
                         "where s.total > " + attackStat + "AND a.cID = s.cID AND a.type = s.type AND a.direction =\n" +
-                        "s.direction;";
+                        "s.direction\n";
                 ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
                 ResultPopup resultPopup = new ResultPopup(result);
                 createPopup(resultPopup);
@@ -191,7 +187,7 @@ public class OtherQueryUI implements ItemListener {
                String queryString = "select a.cID, a.type, SUM(s.active)\n" +
                        "from characterattack a, attackstat s\n" +
                        "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction and a.type = " + type + "and a.direction = " + dir + "\n" +
-                       "GROUP BY a.cID, a.type;";
+                       "GROUP BY a.cID, a.type\n";
                ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
                ResultPopup resultPopup = new ResultPopup(result);
                createPopup(resultPopup);
@@ -205,7 +201,7 @@ public class OtherQueryUI implements ItemListener {
                 String queryString = "select a.cID, a.type, SUM(s.active)\n" +
                         "from characterattack a, attackstat s\n" +
                         "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction AND a.type = " + type + "AND " + active + " < (select AVG(active) from attackstat)\n" +
-                        "GROUP BY a.cID, a.type, a.direction;";
+                        "GROUP BY a.cID, a.type, a.direction\n";
                 ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
                 ResultPopup resultPopup = new ResultPopup(result);
                 createPopup(resultPopup);
@@ -221,7 +217,7 @@ public class OtherQueryUI implements ItemListener {
                         "where not exists\n" +
                         "(select f.c1id\n" +
                         "from fights f\n" +
-                        "where c1.cID = f.c1ID AND c2.cID <> f.c2ID));";
+                        "where c1.cID = f.c1ID AND c2.cID <> f.c2ID))\n";
                 ArrayList<ArrayList<String>> result = backend.query(queryString, 1);
                 ResultPopup resultPopup = new ResultPopup(result);
                 createPopup(resultPopup);
@@ -258,7 +254,7 @@ public class OtherQueryUI implements ItemListener {
                     yes++;
                 }
                 if (queryString.substring(queryString.length() - 1) == ",") {
-                    queryString = queryString.substring(0, queryString.length() - 1) + "\n from attackstat;";
+                    queryString = queryString.substring(0, queryString.length() - 1) + "\n from attackstat\n";
                 }
 
                 ArrayList<ArrayList<String>> result = backend.query(queryString, yes);
