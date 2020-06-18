@@ -139,8 +139,7 @@ public class MainUI implements ActionListener {
                 fireQueryEvent(new QueryEvent(this, params, characters));
                 ArrayList<ArrayList<String>> result = backend.query("select c1.cID, c1.weight, c1.gravity, c2.cID, c2.weight, c2.gravity, st.stID, st.s\n" +
                                 "from characterdata c1, characterdata c2, fights f, stages st\n" +
-                                "where c1.cID = '" + char1 + "' AND c2.cID = '" + char2 + "' AND f.c1ID = c1.cID AND f.c2ID = c2.cID AND f.stID = st.stID AND st.stID = '" + stage + "'\n",
-                        new String[]{"c1.cID", "c1.weight", "c1.gravity", "c2.cID", "c2.weight", "c2.gravity",  "st.stID", "st.s"}, new String[]{"string", "int", "float", "string", "int", "float", "string", "int"});
+                                "where c1.cID = '" + char1 + "' AND c2.cID = '" + char2 + "' AND f.c1ID = c1.cID AND f.c2ID = c2.cID AND f.stID = st.stID AND st.stID = '" + stage + "'\n", 8);
                 System.out.println(result);
             }
         });
