@@ -80,19 +80,25 @@ public class OtherQueryUI implements ItemListener {
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String sgnum = textField1.getText();
+                String sgval = textField2.getText();
+                String sgval2 = Float.toString(2 * Float.parseFloat(sgval));
+                backend.load("insert into shieldgroup values('" + sgnum + "', '" + sgnum + "_hs', " + sgval + ", '" + sgnum + "_hs', " + sgval2);
+                System.out.println("added");
             }
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String sgnum = "'" + textField3.getText() + "'";
+                backend.load("delete from shieldgroup where sgID = " + sgnum);
+                System.out.println("deleted");
             }
         });
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                
             }
         });
         selectButton.addActionListener(new ActionListener() {
