@@ -98,7 +98,10 @@ public class OtherQueryUI implements ItemListener {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                String ggnum = "'" + textField4.getText() + "'";
+                String ggval = textField5.getText();
+                backend.load("update grabgroup \n set gdFrames = " + ggval + ", gsFrames = " + ggval + "\n where ggID = " + ggnum);
+                System.out.println("updated");
             }
         });
         selectButton.addActionListener(new ActionListener() {
