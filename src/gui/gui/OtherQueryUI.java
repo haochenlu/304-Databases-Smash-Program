@@ -24,24 +24,18 @@ public class OtherQueryUI implements ItemListener {
     private JTextField textField4;
     private JTextField textField5;
     private JButton updateButton;
-    private JTextField textField6;
-    private JTextField textField7;
+    private JTextField selectionHeight;
     private JButton selectButton;
-    private JTextField textField10;
     private JTextField textField11;
-    private JComboBox comboBox1;
-    private JComboBox comboBox2;
+    private JComboBox joinAType;
+    private JComboBox joinADir;
     private JButton joinButton;
     private JButton aggregateButton;
     private JComboBox comboBox3;
     private JComboBox comboBox4;
-    private JTextField textField8;
-    private JTextField textField9;
     private JComboBox comboBox5;
-    private JComboBox comboBox6;
     private JButton nestedAggregationButton;
     private JButton divisionButton;
-    private JComboBox comboBox7;
     private JPanel cardPanel;
     private JButton projectionButton;
     private JCheckBox activeCheckBox;
@@ -51,6 +45,9 @@ public class OtherQueryUI implements ItemListener {
     private JCheckBox typeCheckBox;
     private JCheckBox characterIDCheckBox;
     private JCheckBox directionCheckBox;
+    private JComboBox selectionCharBox;
+    private JTextField nestedActiveFrames;
+    private JComboBox joinCharBox;
     final static String INSERT = "Insert";
     final static String DELETE = "Delete";
     final static String UPDATE = "Update";
@@ -61,6 +58,48 @@ public class OtherQueryUI implements ItemListener {
     final static String NESTED_AGGREGATION = "Nested Aggregation";
     final static String DIVISION = "Division";
     private boolean[] delParams;
+    protected String[] character_array = {
+            "Dr. Mario",
+            "Mario",
+            "Luigi",
+            "Bowser",
+            "Peach",
+            "Yoshi",
+            "Donkey Kong",
+            "Captain Falcon",
+            "Ganondorf",
+            "Falco",
+            "Fox",
+            "Ness",
+            "Ice Climbers",
+            "Kirby",
+            "Samus",
+            "Zelda",
+            "Link",
+            "Young Link",
+            "Pichu",
+            "Pikachu",
+            "Jigglypuff",
+            "Mewtwo",
+            "Mr. Game and Watch",
+            "Marth",
+            "Roy"
+    };
+    protected String[] attack_type = {
+            "Aerial",
+            "Smash",
+            "Tilt",
+            "Special",
+            "Jab",
+            "Dash Attack"
+    };
+    protected String[] directions = {
+            "U",
+            "F",
+            "D",
+            "N",
+            "NA"
+    };
 
     public OtherQueryUI(Backend b) {
         backend = b;
@@ -69,11 +108,21 @@ public class OtherQueryUI implements ItemListener {
         for (String op : comboBoxItems) {
             CardSelection.addItem(op);
         }
+        for (String character : character_array) {
+            selectionCharBox.addItem(character);
+        }
+        for (String type : attack_type) {
+            comboBox4.addItem(type);
+            comboBox5.addItem(type);
+        }
+        for (String dir : directions) {
+            comboBox3.addItem(dir);
+        }
         ArrayList<JCheckBox> deleteChecks = new ArrayList<>();
         deleteChecks.add(activeCheckBox);
+        deleteChecks.add(IASACheckBox);
         deleteChecks.add(totalCheckBox);
         deleteChecks.add(percentDoneUnstalledCheckBox);
-        deleteChecks.add(IASACheckBox);
         deleteChecks.add(typeCheckBox);
         deleteChecks.add(characterIDCheckBox);
         CardSelection.addItemListener(this);
@@ -107,33 +156,74 @@ public class OtherQueryUI implements ItemListener {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String shHeight = selectionHeight.getSelectedText();
+                // String selectedChar = selectionCharBox.getSelectedItem().toString();
+                String query = "select jgID\n from jumpgroup\n where shHeight > " + shHeight + "\n";
+                ArrayList<ArrayList<String>> result = backend.query(query, 1);
+                ResultPopup resultPopup = new ResultPopup(result);
+                createPopup(resultPopup);
             }
         });
         joinButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+//                String cID = "'" + joinCharBox.getSelectedItem().toString() + "'";
+//                String type = "'" + joinAType.getSelectedItem().toString() + "'";
+//                String dir = "'" + joinADir.getSelectedItem().toString() + "'";
+                String attackStat = textField11.getSelectedText();
+                String queryString = "select a.cID, a.direction, a.type\n from characterattack a, attackstat s\n " +
+                        "where s.total > " + attackStat + "AND a.cID = s.cID AND a.type = s.type AND a.direction =\n" +
+                        "s.direction\n";
+                ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
+                ResultPopup resultPopup = new ResultPopup(result);
+                createPopup(resultPopup);
             }
         });
         aggregateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+               String type = "'" + comboBox4.getSelectedItem().toString() + "'";
+               String dir = "'" + comboBox3.getSelectedItem().toString() + "'";
+               String queryString = "select a.cID, a.type, SUM(s.active)\n" +
+                       "from characterattack a, attackstat s\n" +
+                       "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction and a.type = " + type + "and a.direction = " + dir + "\n" +
+                       "GROUP BY a.cID, a.type\n";
+               ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
+               ResultPopup resultPopup = new ResultPopup(result);
+               createPopup(resultPopup);
             }
         });
         nestedAggregationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String type = "'" + comboBox5.getSelectedItem().toString() + "'";
+                String active = "'" + nestedActiveFrames.getSelectedText() + "'";
+                String queryString = "select a.cID, a.type, SUM(s.active)\n" +
+                        "from characterattack a, attackstat s\n" +
+                        "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction AND a.type = " + type + "AND " + active + " < (select AVG(active) from attackstat)\n" +
+                        "GROUP BY a.cID, a.type, a.direction\n";
+                ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
+                ResultPopup resultPopup = new ResultPopup(result);
+                createPopup(resultPopup);
             }
         });
         divisionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String queryString = "select c1.cID\n" +
+                        "from characterdata c1\n" +
+                        "where not exists\n" +
+                        "(select * from characterdata c2\n" +
+                        "where not exists\n" +
+                        "(select f.c1id\n" +
+                        "from fights f\n" +
+                        "where c1.cID = f.c1ID AND c2.cID <> f.c2ID))\n";
+                ArrayList<ArrayList<String>> result = backend.query(queryString, 1);
+                ResultPopup resultPopup = new ResultPopup(result);
+                createPopup(resultPopup);
             }
         });
+
         projectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -142,8 +232,51 @@ public class OtherQueryUI implements ItemListener {
                     boolean selected = deleteChecks.get(i).isSelected();
                     delParams[i] = selected;
                 }
+                int yes = 0;
+                String queryString = "select";
+                if (delParams[0] == true) {
+                    queryString = queryString + "active, ";
+                    yes++;
+                } if (delParams[1] == true) {
+                    queryString = queryString + "IASA, ";
+                    yes++;
+                } if (delParams[2] == true) {
+                    queryString = queryString + "total, ";
+                    yes++;
+                } if (delParams[3] == true) {
+                    queryString = queryString + "percentDoneUnstalled, ";
+                    yes++;
+                } if (delParams[4] == true) {
+                    queryString = queryString + "type, ";
+                    yes++;
+                } if(delParams[5] == true) {
+                    queryString = queryString + "cID";
+                    yes++;
+                }
+                if (queryString.substring(queryString.length() - 1) == ",") {
+                    queryString = queryString.substring(0, queryString.length() - 1) + "\n from attackstat\n";
+                }
+
+                ArrayList<ArrayList<String>> result = backend.query(queryString, yes);
+                ResultPopup resultPopup = new ResultPopup(result);
+                createPopup(resultPopup);
             }
         });
+    }
+
+    private void createPopup(ResultPopup resultPopup) {
+
+        JFrame frame = new JFrame("Query Results");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        resultPopup.panel1.setOpaque(true);
+        frame.setContentPane(resultPopup.panel1);
+
+        JFrame.setDefaultLookAndFeelDecorated(true);
+
+        frame.pack();
+        frame.setSize(800, 600);
+        frame.setVisible(true);
     }
 
     private static void createAndShowGUI(Backend b) {
