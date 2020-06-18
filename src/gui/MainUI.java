@@ -106,7 +106,8 @@ public class MainUI {
                 params = new boolean[8];
                 Arrays.fill(params, Boolean.FALSE);
                 for (int i = 0; i < items.size(); i++) {
-                    boolean selected =
+                    boolean selected = items.get(i).isSelected();
+                    params[i] = selected;
                 }
                 fireQueryEvent(new QueryEvent(this, params, characters));
             }
