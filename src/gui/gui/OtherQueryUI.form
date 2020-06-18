@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.gui.OtherQueryUI">
-  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="container" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
@@ -14,7 +14,7 @@
         </constraints>
         <properties/>
       </component>
-      <grid id="ee70e" layout-manager="CardLayout" hgap="0" vgap="0">
+      <grid id="ee70e" binding="cardPanel" layout-manager="CardLayout" hgap="0" vgap="0" show="e5527">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -24,7 +24,7 @@
           <grid id="e5527" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="INSERT"/>
+              <card name="Insert"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -79,7 +79,7 @@
           <grid id="8c96d" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="DELETE"/>
+              <card name="Delete"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -118,7 +118,7 @@
           <grid id="78868" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="UPDATE"/>
+              <card name="Update"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -173,7 +173,7 @@
           <grid id="2d1ab" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="SELECT"/>
+              <card name="Select"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -228,7 +228,7 @@
           <grid id="2a70e" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="JOIN"/>
+              <card name="Join"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -311,7 +311,7 @@
           <grid id="e85a7" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="AGGREGATION"/>
+              <card name="Aggregation"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -378,7 +378,7 @@
           <grid id="4fb70" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="NESTED AGGREGATION"/>
+              <card name="Nested Aggregation"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -445,7 +445,7 @@
           <grid id="25835" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="DIVISION"/>
+              <card name="Division"/>
             </constraints>
             <properties/>
             <border type="none"/>

@@ -1,9 +1,14 @@
 package gui.gui;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-public class OtherQueryUI {
-    private JPanel panel1;
+public class OtherQueryUI implements ItemListener {
+    private JPanel container;
     private JComboBox CardSelection;
     private JTextField textField1;
     private JLabel SGNum;
@@ -33,4 +38,113 @@ public class OtherQueryUI {
     private JButton nestedAggregationButton;
     private JButton divisionButton;
     private JComboBox comboBox7;
+    private JPanel cardPanel;
+    final static String INSERT = "Insert";
+    final static String DELETE = "Delete";
+    final static String UPDATE = "Update";
+    final static String SELECTION = "Selection";
+    final static String PROJECTION = "Projection";
+    final static String JOIN = "Join";
+    final static String AGGREGATION = "Aggregation";
+    final static String NESTED_AGGREGATION = "Nested Aggregation";
+    final static String DIVISION = "Division";
+
+    public OtherQueryUI() {
+        String[] comboBoxItems = {INSERT, DELETE, UPDATE, SELECTION, PROJECTION, JOIN, AGGREGATION, NESTED_AGGREGATION, DIVISION};
+        for (String op : comboBoxItems) {
+            CardSelection.addItem(op);
+        }
+        insertButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        selectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        joinButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        aggregateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        nestedAggregationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        divisionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+    }
+
+    private static void createAndShowGUI() {
+        //Create and set up the window.
+        JFrame frame = new JFrame("CardLayoutDemo");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //Create and set up the content pane.
+        OtherQueryUI demo = new OtherQueryUI();
+        frame.setContentPane(demo.container);
+
+        //Display the window.
+        frame.pack();
+        frame.setVisible(true);
+    }
+    public static void main(String[] args) {
+        /* Use an appropriate Look and Feel */
+        try {
+            //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+        } catch (UnsupportedLookAndFeelException ex) {
+            ex.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
+        } catch (InstantiationException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        /* Turn off metal's use of bold fonts */
+        UIManager.put("swing.boldMetal", Boolean.FALSE);
+
+        //Schedule a job for the event dispatch thread:
+        //creating and showing this application's GUI.
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                createAndShowGUI();
+            }
+        });
+    }
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        CardLayout cl = (CardLayout)(cardPanel.getLayout());
+        cl.show(cardPanel, (String)e.getItem());
+    }
 }
