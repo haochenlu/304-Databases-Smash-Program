@@ -14,7 +14,7 @@ public class BackgroundFrame extends JFrame {
         setVisible(true);
 
         setLayout(new BorderLayout());
-        setContentPane(new JLabel(new ImageIcon("C:\\Users\\haoch\\UBC CS\\jav\\304-Databases-Smash-Program\\src\\gui\\gui\\ssbm.jpg")));
+        setContentPane(new JLabel(new ImageIcon(".\\ssbm.jpg")));
         setLayout(new FlowLayout());
         add(panel);
         setSize(399,399);
