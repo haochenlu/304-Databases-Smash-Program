@@ -47,6 +47,9 @@ public class OtherQueryUI implements ItemListener {
     private JCheckBox directionCheckBox;
     private JComboBox selectionCharBox;
     private JTextField nestedActiveFrames;
+    private JPanel ShowTable;
+    private JComboBox TableBox;
+    private JButton showTableButton;
     private JComboBox joinCharBox;
     final static String INSERT = "Insert";
     final static String DELETE = "Delete";
@@ -57,6 +60,7 @@ public class OtherQueryUI implements ItemListener {
     final static String AGGREGATION = "Aggregation";
     final static String NESTED_AGGREGATION = "Nested Aggregation";
     final static String DIVISION = "Division";
+    final static String Show_Table = "Show Table";
     private boolean[] delParams;
     protected String[] character_array = {
             "Dr. Mario",
@@ -100,10 +104,21 @@ public class OtherQueryUI implements ItemListener {
             "N",
             "NA"
     };
+    protected String[] tables = {
+            "shieldgroup",
+            "grabgroup",
+            "jumpgroup",
+            "characterdata",
+            "intothrow",
+            "characterattack",
+            "airdodgegroup",
+            "airdodgedata",
+            "stages"
+    };
 
     public OtherQueryUI(Backend b) {
         backend = b;
-        String[] comboBoxItems = {INSERT, DELETE, UPDATE, SELECTION, PROJECTION, JOIN, AGGREGATION, NESTED_AGGREGATION, DIVISION};
+        String[] comboBoxItems = {INSERT, DELETE, UPDATE, SELECTION, PROJECTION, JOIN, AGGREGATION, NESTED_AGGREGATION, DIVISION, Show_Table};
         System.out.println(comboBoxItems);
         for (String op : comboBoxItems) {
             CardSelection.addItem(op);
@@ -117,6 +132,9 @@ public class OtherQueryUI implements ItemListener {
         }
         for (String dir : directions) {
             comboBox3.addItem(dir);
+        }
+        for (String table : tables) {
+            TableBox.addItem(table);
         }
         ArrayList<JCheckBox> deleteChecks = new ArrayList<>();
         deleteChecks.add(activeCheckBox);
@@ -174,6 +192,7 @@ public class OtherQueryUI implements ItemListener {
                 String queryString = "select a.cID, a.direction, a.type\n from characterattack a, attackstat s\n " +
                         "where s.total > " + attackStat + "AND a.cID = s.cID AND a.type = s.type AND a.direction =\n" +
                         "s.direction\n";
+                System.out.println(queryString);
                 ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
                 ResultPopup resultPopup = new ResultPopup(result);
                 createPopup(resultPopup);
@@ -188,6 +207,7 @@ public class OtherQueryUI implements ItemListener {
                        "from characterattack a, attackstat s\n" +
                        "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction and a.type = " + type + "and a.direction = " + dir + "\n" +
                        "GROUP BY a.cID, a.type\n";
+               System.out.println(queryString);
                ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
                ResultPopup resultPopup = new ResultPopup(result);
                createPopup(resultPopup);
@@ -202,6 +222,7 @@ public class OtherQueryUI implements ItemListener {
                         "from characterattack a, attackstat s\n" +
                         "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction AND a.type = " + type + "AND " + active + " < (select AVG(active) from attackstat)\n" +
                         "GROUP BY a.cID, a.type, a.direction\n";
+                System.out.println(queryString);
                 ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
                 ResultPopup resultPopup = new ResultPopup(result);
                 createPopup(resultPopup);
@@ -256,8 +277,19 @@ public class OtherQueryUI implements ItemListener {
                 if (queryString.substring(queryString.length() - 1) == ",") {
                     queryString = queryString.substring(0, queryString.length() - 1) + "\n from attackstat\n";
                 }
+                System.out.println(queryString);
 
                 ArrayList<ArrayList<String>> result = backend.query(queryString, yes);
+                ResultPopup resultPopup = new ResultPopup(result);
+                createPopup(resultPopup);
+            }
+        });
+        showTableButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String table = TableBox.getSelectedItem().toString();
+                String queryString = "select * from " + table + "\n";
+                ArrayList<ArrayList<String>> result = backend.query(queryString, 1);
                 ResultPopup resultPopup = new ResultPopup(result);
                 createPopup(resultPopup);
             }
