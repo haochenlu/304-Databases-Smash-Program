@@ -156,10 +156,10 @@ public class OtherQueryUI implements ItemListener {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String shHeight = selectionHeight.getSelectedText();
+                String shHeight = selectionHeight.getText();
                 // String selectedChar = selectionCharBox.getSelectedItem().toString();
                 String query = "select jgID\n from jumpgroup\n where shHeight > " + shHeight + "\n";
-                ArrayList<ArrayList<String>> result = backend.query(query, 1);
+                ArrayList<ArrayList<String>> result = backend.query(query);
                 ResultPopup resultPopup = new ResultPopup(result);
                 createPopup(resultPopup);
             }
@@ -170,11 +170,11 @@ public class OtherQueryUI implements ItemListener {
 //                String cID = "'" + joinCharBox.getSelectedItem().toString() + "'";
 //                String type = "'" + joinAType.getSelectedItem().toString() + "'";
 //                String dir = "'" + joinADir.getSelectedItem().toString() + "'";
-                String attackStat = textField11.getSelectedText();
+                String attackStat = textField11.getText();
                 String queryString = "select a.cID, a.direction, a.type\n from characterattack a, attackstat s\n " +
-                        "where s.total > " + attackStat + "AND a.cID = s.cID AND a.type = s.type AND a.direction =\n" +
+                        "where s.total > " + attackStat + " AND a.cID = s.cID AND a.type = s.type AND a.direction =\n" +
                         "s.direction\n";
-                ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
+                ArrayList<ArrayList<String>> result = backend.query(queryString);
                 ResultPopup resultPopup = new ResultPopup(result);
                 createPopup(resultPopup);
             }
@@ -188,7 +188,7 @@ public class OtherQueryUI implements ItemListener {
                        "from characterattack a, attackstat s\n" +
                        "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction and a.type = " + type + "and a.direction = " + dir + "\n" +
                        "GROUP BY a.cID, a.type\n";
-               ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
+               ArrayList<ArrayList<String>> result = backend.query(queryString);
                ResultPopup resultPopup = new ResultPopup(result);
                createPopup(resultPopup);
             }
@@ -197,12 +197,12 @@ public class OtherQueryUI implements ItemListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String type = "'" + comboBox5.getSelectedItem().toString() + "'";
-                String active = "'" + nestedActiveFrames.getSelectedText() + "'";
+                String active = "'" + nestedActiveFrames.getText() + "'";
                 String queryString = "select a.cID, a.type, SUM(s.active)\n" +
                         "from characterattack a, attackstat s\n" +
                         "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction AND a.type = " + type + "AND " + active + " < (select AVG(active) from attackstat)\n" +
                         "GROUP BY a.cID, a.type, a.direction\n";
-                ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
+                ArrayList<ArrayList<String>> result = backend.query(queryString);
                 ResultPopup resultPopup = new ResultPopup(result);
                 createPopup(resultPopup);
             }
@@ -218,7 +218,7 @@ public class OtherQueryUI implements ItemListener {
                         "(select f.c1id\n" +
                         "from fights f\n" +
                         "where c1.cID = f.c1ID AND c2.cID <> f.c2ID))\n";
-                ArrayList<ArrayList<String>> result = backend.query(queryString, 1);
+                ArrayList<ArrayList<String>> result = backend.query(queryString);
                 ResultPopup resultPopup = new ResultPopup(result);
                 createPopup(resultPopup);
             }
@@ -233,7 +233,7 @@ public class OtherQueryUI implements ItemListener {
                     delParams[i] = selected;
                 }
                 int yes = 0;
-                String queryString = "select";
+                String queryString = "select ";
                 if (delParams[0] == true) {
                     queryString = queryString + "active, ";
                     yes++;
@@ -250,14 +250,13 @@ public class OtherQueryUI implements ItemListener {
                     queryString = queryString + "type, ";
                     yes++;
                 } if(delParams[5] == true) {
-                    queryString = queryString + "cID";
+                    queryString = queryString + "cID, ";
                     yes++;
                 }
-                if (queryString.substring(queryString.length() - 1) == ",") {
-                    queryString = queryString.substring(0, queryString.length() - 1) + "\n from attackstat\n";
-                }
 
-                ArrayList<ArrayList<String>> result = backend.query(queryString, yes);
+                queryString = queryString.substring(0, queryString.length() - 2) + "\n from attackstat\n";
+
+                 ArrayList<ArrayList<String>> result = backend.query(queryString);
                 ResultPopup resultPopup = new ResultPopup(result);
                 createPopup(resultPopup);
             }

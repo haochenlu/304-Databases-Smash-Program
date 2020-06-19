@@ -36,18 +36,17 @@ public class Backend {
         }
     }
 
-    public ArrayList<ArrayList<String>> query(String query, int ncol) {
+    public ArrayList<ArrayList<String>> query(String query) {
         ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             String ret = "";
             ResultSetMetaData rsmd = rs.getMetaData();
-            String a = rsmd.getColumnName(1);
+            int a = rsmd.getColumnCount();
             while(rs.next()) {
-                a = rs.getString(1);
                 ArrayList<String> line = new ArrayList<String>();
-                for (int c = 1; c <= ncol; c++) {
+                for (int c = 1; c <= a; c++) {
                     line.add(rs.getString(c));
                 }
                 result.add(line);
