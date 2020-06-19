@@ -365,7 +365,6 @@ public class OtherQueryUI implements ItemListener {
     }
     @Override
     public void itemStateChanged(ItemEvent e) {
-        System.out.println("event!");
         CardLayout cl = (CardLayout)(cardPanel.getLayout());
         cl.show(cardPanel, (String)e.getItem());
     }
