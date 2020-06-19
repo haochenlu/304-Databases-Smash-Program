@@ -45,11 +45,16 @@ public class OtherQueryUI implements ItemListener {
     private JCheckBox typeCheckBox;
     private JCheckBox characterIDCheckBox;
     private JCheckBox directionCheckBox;
-    private JComboBox selectionCharBox;
     private JTextField nestedActiveFrames;
     private JPanel ShowTable;
     private JComboBox TableBox;
     private JButton showTableButton;
+    private JTextPane selectionPane;
+    private JTextPane updatePane;
+    private JTextPane deletePane;
+    private JTextPane insertPane;
+    private JTextPane joinPane;
+    private JTextPane nestedAggregationPane;
     private JComboBox joinCharBox;
     final static String INSERT = "Insert";
     final static String DELETE = "Delete";
@@ -117,14 +122,16 @@ public class OtherQueryUI implements ItemListener {
     };
 
     public OtherQueryUI(Backend b) {
+        deletePane.setText("Input an integer to delete the corresponding shield group");
+        insertPane.setText("Input an integer into new SG# and any number into newSGVal to insert a new shield group with hard shield value of newSGVal");
+        joinPane.setText("Input an integer into AttackStat > to get the characters moves with total frames greater than AttackStat");
+        nestedAggregationPane.setText("Insert an integer into Active to get the characters whose average active frames for moves of type 'Attack type' are less than 'Active'");
+        selectionPane.setText("Insert any number into shHeight to get the jump group IDs of those characters whose short hop heights are greater than 'shHeight'");
         backend = b;
         String[] comboBoxItems = {INSERT, DELETE, UPDATE, SELECTION, PROJECTION, JOIN, AGGREGATION, NESTED_AGGREGATION, DIVISION, Show_Table};
         System.out.println(comboBoxItems);
         for (String op : comboBoxItems) {
             CardSelection.addItem(op);
-        }
-        for (String character : character_array) {
-            selectionCharBox.addItem(character);
         }
         for (String type : attack_type) {
             comboBox4.addItem(type);
@@ -178,7 +185,7 @@ public class OtherQueryUI implements ItemListener {
                 // String selectedChar = selectionCharBox.getSelectedItem().toString();
                 String query = "select jgID\n from jumpgroup\n where shHeight > " + shHeight + "\n";
                 ArrayList<ArrayList<String>> result = backend.query(query, 1);
-                ResultPopup resultPopup = new ResultPopup(result);
+                ResultPopup resultPopup = new ResultPopup(result, query);
                 createPopup(resultPopup);
             }
         });
@@ -194,7 +201,7 @@ public class OtherQueryUI implements ItemListener {
                         "s.direction\n";
                 System.out.println(queryString);
                 ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
-                ResultPopup resultPopup = new ResultPopup(result);
+                ResultPopup resultPopup = new ResultPopup(result, queryString);
                 createPopup(resultPopup);
             }
         });
@@ -209,7 +216,7 @@ public class OtherQueryUI implements ItemListener {
                        "GROUP BY a.cID, a.type\n";
                System.out.println(queryString);
                ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
-               ResultPopup resultPopup = new ResultPopup(result);
+               ResultPopup resultPopup = new ResultPopup(result, queryString);
                createPopup(resultPopup);
             }
         });
@@ -224,7 +231,7 @@ public class OtherQueryUI implements ItemListener {
                         "GROUP BY a.cID, a.type, a.direction\n";
                 System.out.println(queryString);
                 ArrayList<ArrayList<String>> result = backend.query(queryString, 3);
-                ResultPopup resultPopup = new ResultPopup(result);
+                ResultPopup resultPopup = new ResultPopup(result, queryString);
                 createPopup(resultPopup);
             }
         });
@@ -240,7 +247,7 @@ public class OtherQueryUI implements ItemListener {
                         "from fights f\n" +
                         "where c1.cID = f.c1ID AND c2.cID <> f.c2ID))\n";
                 ArrayList<ArrayList<String>> result = backend.query(queryString, 1);
-                ResultPopup resultPopup = new ResultPopup(result);
+                ResultPopup resultPopup = new ResultPopup(result, queryString);
                 createPopup(resultPopup);
             }
         });
@@ -280,7 +287,7 @@ public class OtherQueryUI implements ItemListener {
                 System.out.println(queryString);
 
                 ArrayList<ArrayList<String>> result = backend.query(queryString, yes);
-                ResultPopup resultPopup = new ResultPopup(result);
+                ResultPopup resultPopup = new ResultPopup(result, queryString);
                 createPopup(resultPopup);
             }
         });
@@ -290,7 +297,7 @@ public class OtherQueryUI implements ItemListener {
                 String table = TableBox.getSelectedItem().toString();
                 String queryString = "select * from " + table + "\n";
                 ArrayList<ArrayList<String>> result = backend.query(queryString, 1);
-                ResultPopup resultPopup = new ResultPopup(result);
+                ResultPopup resultPopup = new ResultPopup(result, queryString);
                 createPopup(resultPopup);
             }
         });
