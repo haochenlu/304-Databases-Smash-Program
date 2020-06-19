@@ -25,10 +25,10 @@ public class Launcher {
             backend.load(line);
             count++;
         }
-        out = backend.query("select hsSize\n" + "from shieldgroup\n", 1);
+        out = backend.query("select hsSize\n" + "from shieldgroup\n");
         System.out.println(out.toString());
         backend.load("update grabgroup set gdFrames = 10 where ggID = '26_gg'");
-        out = backend.query("select gdFrames\n" + "from grabgroup\n" + "where ggID = '26_gg'\n", 1);
+        out = backend.query("select gdFrames\n" + "from grabgroup\n" + "where ggID = '26_gg'\n");
         System.out.println(out.toString());
         backend.close();
     }
