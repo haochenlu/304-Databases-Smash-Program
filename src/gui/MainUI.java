@@ -261,7 +261,7 @@ public class MainUI implements ActionListener {
                 frame.setSize(399,399);
                 frame.setJMenuBar(gui.createMenuBar());
                 gui.panel1.setOpaque(false);
-                frame.setSize(800, 500);
+                frame.setSize(800, 540);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
             }
