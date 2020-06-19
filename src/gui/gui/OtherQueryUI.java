@@ -55,6 +55,12 @@ public class OtherQueryUI implements ItemListener {
     private JTextPane insertPane;
     private JTextPane joinPane;
     private JTextPane nestedAggregationPane;
+    private JButton ProjectionDemoButton;
+    private JCheckBox jgIDCheckBox;
+    private JCheckBox shHeightCheckBox;
+    private JCheckBox shIDCheckBox;
+    private JCheckBox fhHeightCheckBox;
+    private JCheckBox fhIDCheckBox;
     private JComboBox joinCharBox;
     final static String INSERT = "Insert";
     final static String DELETE = "Delete";
@@ -66,6 +72,7 @@ public class OtherQueryUI implements ItemListener {
     final static String NESTED_AGGREGATION = "Nested Aggregation";
     final static String DIVISION = "Division";
     final static String Show_Table = "Show Table";
+    final static String PROJECTION_DEMO = "projectionDemo";
     private boolean[] delParams;
     protected String[] character_array = {
             "Dr. Mario",
@@ -100,7 +107,8 @@ public class OtherQueryUI implements ItemListener {
             "Tilt",
             "Special",
             "Jab",
-            "Dash Attack"
+            "Dash Attack",
+            "All"
     };
     protected String[] directions = {
             "U",
@@ -135,7 +143,7 @@ public class OtherQueryUI implements ItemListener {
         joinPane.setEditable(false);
         insertPane.setEditable(false);
         backend = b;
-        String[] comboBoxItems = {INSERT, DELETE, UPDATE, SELECTION, PROJECTION, JOIN, AGGREGATION, NESTED_AGGREGATION, DIVISION, Show_Table};
+        String[] comboBoxItems = {INSERT, DELETE, UPDATE, SELECTION, PROJECTION, PROJECTION_DEMO, JOIN, AGGREGATION, NESTED_AGGREGATION, DIVISION, Show_Table};
         System.out.println(comboBoxItems);
         for (String op : comboBoxItems) {
             CardSelection.addItem(op);
@@ -157,6 +165,12 @@ public class OtherQueryUI implements ItemListener {
         deleteChecks.add(percentDoneUnstalledCheckBox);
         deleteChecks.add(typeCheckBox);
         deleteChecks.add(characterIDCheckBox);
+        ArrayList<JCheckBox> projectionDemoCheck = new ArrayList<>();
+        projectionDemoCheck.add(jgIDCheckBox);
+        projectionDemoCheck.add(shIDCheckBox);
+        projectionDemoCheck.add(shHeightCheckBox);
+        projectionDemoCheck.add(fhIDCheckBox);
+        projectionDemoCheck.add(fhHeightCheckBox);
         CardSelection.addItemListener(this);
         insertButton.addActionListener(new ActionListener() {
             @Override
@@ -215,15 +229,23 @@ public class OtherQueryUI implements ItemListener {
         aggregateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               String type = "'" + comboBox4.getSelectedItem().toString() + "'";
-               String dir = "'" + comboBox3.getSelectedItem().toString() + "'";
-               String queryString = "select a.cID, a.type, SUM(s.active)\n" +
-                       "from characterattack a, attackstat s\n" +
-                       "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction and a.type = " + type + "and a.direction = " + dir + "\n" +
-                       "GROUP BY a.cID, a.type\n";
-               ArrayList<ArrayList<String>> result = backend.query(queryString);
-               ResultPopup resultPopup = new ResultPopup(result, queryString);
-               createPopup(resultPopup);
+                String queryString;
+                if (comboBox4.getSelectedItem().toString() == "All") {
+                     queryString = "select a.cID, a.type, SUM(s.active)\n" +
+                            "from characterattack a, attackstat s\n" +
+                            "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction\n" +
+                            "GROUP BY a.cID, a.type\n";
+                } else {
+                    String type = "'" + comboBox4.getSelectedItem().toString() + "'";
+                    String dir = "'" + comboBox3.getSelectedItem().toString() + "'";
+                    queryString = "select a.cID, a.type, SUM(s.active)\n" +
+                            "from characterattack a, attackstat s\n" +
+                            "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction and a.type = " + type + "and a.direction = " + dir + "\n" +
+                            "GROUP BY a.cID, a.type\n";
+                }
+                ArrayList<ArrayList<String>> result = backend.query(queryString);
+                ResultPopup resultPopup = new ResultPopup(result, queryString);
+                createPopup(resultPopup);
             }
         });
         nestedAggregationButton.addActionListener(new ActionListener() {
@@ -231,11 +253,19 @@ public class OtherQueryUI implements ItemListener {
             public void actionPerformed(ActionEvent e) {
                 String type = "'" + comboBox5.getSelectedItem().toString() + "'";
                 String active = "'" + nestedActiveFrames.getText() + "'";
-                String queryString = "select a.cID, a.type, SUM(s.active)\n" +
-                        "from characterattack a, attackstat s\n" +
-                        "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction AND a.type = " + type + "AND " + active + " < (select AVG(active) from attackstat)\n" +
-                        "GROUP BY a.cID, a.type, a.direction\n";
-
+                String queryString;
+                if (comboBox5.getSelectedItem().toString() == "All") {
+                    queryString = "select a.cID, a.type, a.direction\n" +
+                            "from characterattack a, attackstat s\n" +
+                            "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction AND\n" +
+                            "s.active < (select AVG(active) from attackstat)\n" +
+                            "GROUP BY a.cID, a.type, a.direction\n";
+                } else {
+                    queryString = "select a.cID, a.type, SUM(s.active)\n" +
+                            "from characterattack a, attackstat s\n" +
+                            "where a.cID = s.cID AND a.type = s.type AND a.direction = s.direction AND a.type = " + type + "AND " + active + " < (select AVG(active) from attackstat)\n" +
+                            "GROUP BY a.cID, a.type, a.direction\n";
+                }
                 ArrayList<ArrayList<String>> result = backend.query(queryString);
                 ResultPopup resultPopup = new ResultPopup(result, queryString);
                 createPopup(resultPopup);
@@ -302,6 +332,34 @@ public class OtherQueryUI implements ItemListener {
             public void actionPerformed(ActionEvent e) {
                 String table = TableBox.getSelectedItem().toString();
                 String queryString = "select * from " + table + "\n";
+                ArrayList<ArrayList<String>> result = backend.query(queryString);
+                ResultPopup resultPopup = new ResultPopup(result, queryString);
+                createPopup(resultPopup);
+            }
+        });
+        ProjectionDemoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean[] projParams = new boolean[5];
+                for (int i = 0; i < projectionDemoCheck.size(); i++) {
+                    boolean selected = projectionDemoCheck.get(i).isSelected();
+                    projParams[i] = selected;
+                }
+                String queryString = "select ";
+                if (projParams[0] == true) {
+                    queryString = queryString + "jgID, ";
+                } if (projParams[1] == true) {
+                    queryString = queryString + "shID, ";
+                } if (projParams[2] == true) {
+                    queryString = queryString + "shHeight, ";
+                } if (projParams[3] == true) {
+                    queryString = queryString + "fhID, ";
+                } if (projParams[4] == true) {
+                    queryString = queryString + "fhHeight, ";
+                }
+
+                queryString = queryString.substring(0, queryString.length() - 2) + "\nfrom jumpgroup\n";
+
                 ArrayList<ArrayList<String>> result = backend.query(queryString);
                 ResultPopup resultPopup = new ResultPopup(result, queryString);
                 createPopup(resultPopup);
