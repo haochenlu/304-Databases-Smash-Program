@@ -164,7 +164,7 @@ public class OtherQueryUI implements ItemListener {
                 String sgnum = textField1.getText();
                 String sgval = textField2.getText();
                 String sgval2 = Float.toString(2 * Float.parseFloat(sgval));
-                backend.load("insert into shieldgroup values('" + sgnum + "', '" + sgnum + "_hs', " + sgval + ", '" + sgnum + "_hs', " + sgval2);
+                backend.load("insert into shieldgroup values('" + sgnum + "', '" + sgnum + "_hs', " + sgval + ", '" + sgnum + "_hs', " + sgval2 + ")\n");
                 System.out.println("added");
             }
         });
@@ -181,7 +181,7 @@ public class OtherQueryUI implements ItemListener {
             public void actionPerformed(ActionEvent e) {
                 String ggnum = "'" + textField4.getText() + "'";
                 String ggval = textField5.getText();
-                backend.load("update grabgroup \n set gdFrames = " + ggval + ", gsFrames = " + ggval + "\n where ggID = " + ggnum);
+                backend.load("update grabgroup \n set gdFrames = " + ggval + "\n where ggID = " + ggnum);
                 System.out.println("updated");
             }
         });

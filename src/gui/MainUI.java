@@ -255,7 +255,7 @@ public class MainUI implements ActionListener {
                 gui = new MainUI();
                 frame = new JFrame("Smash DB");
                 frame.setLayout(new BorderLayout());
-                frame.setContentPane(new JLabel(new ImageIcon("C:\\Users\\haoch\\UBC CS\\jav\\304-Databases-Smash-Program\\src\\gui\\gui\\ssbm.jpg")));
+                frame.setContentPane(new JLabel(new ImageIcon(".\\src\\gui\\gui\\ssbm.jpg")));
                 frame.setLayout(new FlowLayout());
                 frame.add(gui.panel1);
                 frame.setSize(399,399);
