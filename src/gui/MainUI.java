@@ -111,7 +111,7 @@ public class MainUI implements ActionListener {
 
     public MainUI() {
         backend = new Backend();
-        backend.login("ora_mkalina", "a92772482");
+        backend.login("ora_hclu", "a98241326");
         Launcher.start(backend);
         panel1.setOpaque(true);
         for (String character : character_array) {

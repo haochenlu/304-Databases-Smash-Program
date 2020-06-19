@@ -122,11 +122,18 @@ public class OtherQueryUI implements ItemListener {
     };
 
     public OtherQueryUI(Backend b) {
-        deletePane.setText("Input an integer to delete the corresponding shield group");
-        insertPane.setText("Input an integer into new SG# and any number into newSGVal to insert a new shield group with hard shield value of newSGVal");
+        deletePane.setText("Input an integer followed by '_sg' to delete the corresponding shield group");
+        insertPane.setText("Input an integer followed by '_sg' into new SG# and any number into newSGVal to insert a new shield group with hard shield value of newSGVal");
         joinPane.setText("Input an integer into AttackStat > to get the characters moves with total frames greater than AttackStat");
         nestedAggregationPane.setText("Insert an integer into Active to get the characters whose average active frames for moves of type 'Attack type' are less than 'Active'");
+        updatePane.setText("Insert an integer followed by '_gg' into ggID and insert any number into new value to change the value of the corresponding grab group frames");
         selectionPane.setText("Insert any number into shHeight to get the jump group IDs of those characters whose short hop heights are greater than 'shHeight'");
+        selectionPane.setEditable(false);
+        deletePane.setEditable(false);
+        nestedAggregationPane.setEditable(false);
+        updatePane.setEditable(false);
+        joinPane.setEditable(false);
+        insertPane.setEditable(false);
         backend = b;
         String[] comboBoxItems = {INSERT, DELETE, UPDATE, SELECTION, PROJECTION, JOIN, AGGREGATION, NESTED_AGGREGATION, DIVISION, Show_Table};
         System.out.println(comboBoxItems);
